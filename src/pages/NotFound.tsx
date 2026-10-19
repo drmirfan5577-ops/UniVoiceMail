@@ -1,0 +1,3 @@
+import { Link } from 'react-router-dom';
+import { AudioLines, ArrowLeft } from 'lucide-react';
+export default function NotFound() { return <div className="flex min-h-screen items-center justify-center bg-background p-8 text-center"><div><AudioLines size={40} className="mx-auto mb-6 text-primary"/><p className="eyebrow mb-2">404 · A LITTLE OFF THE BEATEN PATH</p><h1 className="mb-3 text-3xl font-bold">This conversation isn’t here.</h1><p className="mb-6 text-muted-foreground">Let’s get you back to your own space.</p><Link to="/" className="primary-button"><ArrowLeft size={16}/>Return to your inbox</Link></div></div>; }

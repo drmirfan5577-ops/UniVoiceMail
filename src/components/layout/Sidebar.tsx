@@ -1,0 +1,20 @@
+import { NavLink } from 'react-router-dom';
+import { AudioLines, Inbox, Mic, Send, FileText, Star, Archive, Network, Settings2, ChevronDown, Plus, ShieldCheck, Trash2 } from 'lucide-react';
+import { useMail } from '@/hooks/useMail';
+import { cn } from '@/lib/utils';
+interface SidebarProps { close: () => void; }
+const NAV = [{ path: '/', label: 'Unified inbox', Icon: Inbox, key: 'inbox' }, { path: '/voice', label: 'Voice messages', Icon: Mic, key: 'voice' }, { path: '/starred', label: 'Starred', Icon: Star, key: 'starred' }, { path: '/sent', label: 'Sent', Icon: Send, key: 'sent' }, { path: '/drafts', label: 'Drafts', Icon: FileText, key: 'drafts' }, { path: '/archive', label: 'Archive', Icon: Archive, key: 'archive' }, { path: '/trash', label: 'Trash', Icon: Trash2, key: 'trash' }];
+export default function Sidebar({ close }: SidebarProps) {
+ const { mails, setComposeOpen } = useMail();
+ const count = (key: string) => mails.filter(m => key === 'voice' ? m.kind === 'voice' && m.folder === 'inbox' : key === 'starred' ? m.starred && m.folder !== 'trash' : m.folder === key && (key === 'inbox' ? m.unread : true)).length;
+ return <aside className="flex h-full w-[248px] shrink-0 flex-col border-r bg-card px-5 py-7">
+  <NavLink to="/" onClick={close} className="mb-8 flex items-center gap-2.5 px-2"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-on-ink"><AudioLines size={24}/></span><span><span className="block font-display text-xl font-extrabold tracking-tight">UniVoiceMail<span className="text-primary">.</span></span><span className="block text-[10px] font-semibold tracking-[0.2em] text-muted-foreground">EVERY CONVERSATION. TOGETHER.</span></span></NavLink>
+  <NavLink to="/settings" onClick={close} className="mb-6 flex items-center gap-3 rounded-xl border p-3"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-soft text-sm font-bold text-primary">IR</span><span className="min-w-0 flex-1"><span className="block text-sm font-bold">Personal workspace</span><span className="block truncate text-xs text-muted-foreground">irfan@uniorbi.com</span></span><ChevronDown size={15}/></NavLink>
+  <button className="primary-button mb-7 w-full" onClick={() => { setComposeOpen(true); close(); }}><Plus size={18}/> Compose message</button>
+  <p className="eyebrow mb-3 px-3">Your workspace</p>
+  <nav className="space-y-1">{NAV.map(({ path, label, Icon, key }) => <NavLink end to={path} key={path} onClick={close} className={({ isActive }) => cn('flex min-h-11 items-center gap-3 rounded-lg px-3 text-[13px] font-medium hover:bg-muted', isActive ? 'bg-brand-soft font-bold text-primary' : 'text-muted-foreground')}><Icon size={18} strokeWidth={1.7}/><span className="flex-1">{label}</span>{count(key) > 0 && <span className="text-xs">{count(key)}</span>}</NavLink>)}</nav>
+  <div className="my-5 border-t"/><p className="eyebrow mb-3 px-3">Beyond your inbox</p>
+  <NavLink to="/social" onClick={close} className={({ isActive }) => cn('flex min-h-11 items-center gap-3 rounded-lg px-3 text-[13px] font-medium', isActive ? 'bg-brand-soft text-primary' : 'text-muted-foreground hover:bg-muted')}><Network size={18}/>Social hub<span className="ml-auto rounded bg-success-soft px-1.5 py-0.5 text-[9px] font-bold text-success">NEW</span></NavLink>
+  <div className="mt-auto pt-8"><div className="mb-4 rounded-xl bg-muted p-4"><div className="mb-2 flex items-center gap-2 text-xs font-semibold"><ShieldCheck size={15} className="text-success"/> Your space. Your conversations.</div><p className="text-xs leading-relaxed text-muted-foreground">Demo data stays on this device. You’re always in control.</p><div className="mt-3 h-1 rounded bg-border"><div className="h-1 w-1/5 rounded bg-success"/></div><p className="mt-2 text-[10px] text-muted-foreground">LOCAL DEMO WORKSPACE</p></div><NavLink to="/settings" onClick={close} className="flex min-h-11 items-center gap-3 px-3 text-[13px] text-muted-foreground hover:text-foreground"><Settings2 size={18}/>Settings & connections</NavLink></div>
+ </aside>;
+}

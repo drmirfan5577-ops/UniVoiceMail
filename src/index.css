@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+ :root { --background: 40 25% 97%; --foreground: 210 22% 16%; --card: 0 0% 100%; --primary: 12 77% 43%; --primary-foreground: 0 0% 100%; --secondary: 40 20% 94%; --muted: 40 17% 95%; --muted-foreground: 210 9% 42%; --accent: 16 70% 96%; --border: 35 17% 89%; --destructive: 0 66% 43%; --ink: 208 25% 15%; --ink-subtle: 207 18% 23%; --on-ink: 35 18% 91%; --success: 161 47% 30%; --success-soft: 154 30% 93%; --brand-soft: 16 85% 94%; --radius: 0.8rem; }
+ * { @apply border-border; }
+ body { @apply bg-background text-foreground font-sans antialiased; margin: 0; font-size: 16px; }
+ h1,h2,h3 { @apply font-display; }
+ button,a,input,textarea,select { -webkit-tap-highlight-color: transparent; }
+ button,a { @apply transition-[transform,opacity] duration-200; }
+ button:disabled { @apply opacity-40 cursor-not-allowed; }
+ :focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 4px; }
+ ::selection { background: hsl(var(--brand-soft)); }
+}
+@layer components {
+ .primary-button { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 active:scale-[0.98] disabled:opacity-40; }
+ .secondary-button { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary active:scale-[0.98]; }
+ .icon-button { @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground; }
+ .field { @apply w-full rounded-lg border bg-card px-3 py-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary; }
+ .eyebrow { @apply text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground; }
+}
+::-webkit-scrollbar { width: 5px; height: 5px; } ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { transition: none !important; animation: none !important; } }
